@@ -64,16 +64,29 @@ name: terraform
 
 2.2 Добавление роли для `service account` `terraform` в стандартный каталог `default`:
 
-Добавим роль editor
+Добавим роль `editor` (для созданий ресурсов)
 
 ```
 yc resource-manager folder add-access-binding default --role editor --subject serviceAccount:ajekarlmhnn3srrqn23a
 
 done (1s)
 ```
-Добавим роль `editor`
+Добавим роль `container-registry.admin` (для создания, изменения и удаления реестра)
 
-2.3 Добавляем к ней ключ и запсиываем его в отдельный файл `key.json`
+```
+yc resource-manager folder add-access-binding default --role container-registry.admin --subject serviceAccount:ajekarlmhnn3srrqn23a
+done (1s)
+```
+```
+yc resource-manager folder list-access-bindings default
++--------------------------+----------------+----------------------+
+|         ROLE ID          |  SUBJECT TYPE  |      SUBJECT ID      |
++--------------------------+----------------+----------------------+
+| container-registry.admin | serviceAccount | ajekarlmhnn3srrqn23a |
+| editor                   | serviceAccount | ajekarlmhnn3srrqn23a |
++--------------------------+----------------+----------------------+
+```
+2.3 Добавляем к `service account` ключ и записываем его в отдельный файл `key.json`
 
 ```
 yc iam key create --service-account-id=ajekarlmhnn3srrqn23a --output key.json
@@ -102,3 +115,14 @@ provider "yandex" {
 `tr -d '\n' key.json > newkey.json`
 
 Далее добавляем переменную `YC_SERVICE_ACCOUNT_KEY_FILE` в категории `Environment variable` и указываем значение `newkey.json`
+
+### 2. Создание k8s инстансов
+
+
+
+### 3. Создание Container Registry
+
+Создание самого контейнеа с именем 
+
+
+#Создадим два сервис аккаунта - один для pull образов (k8s) и дальнейшего развертывания а другой - для push (ci-cd)

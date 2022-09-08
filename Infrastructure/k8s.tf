@@ -40,21 +40,16 @@ locals {
   }
 }  
 
-# data "yandex_compute_image" "ubuntu2004" {
-#   source_image = "fd8mfc6omiki5govl68h"
-# }
-
-# Создание инстанса для control node k8s
 resource "yandex_compute_instance" "kube_control_node" {
-  count    = local.k8s[local.workspace].controls.count
+  count    = local.k8s[local.workspace].controls.count #3
   name     = "kube-control-node-${count.index}"
   platform_id = local.k8s.platform_id
   hostname = "kube-control-node-${count.index}"
   zone = local.networks[count.index - floor(count.index / length(local.networks)) * length(local.networks)].zone_name
 
   resources {
-    cores  = local.k8s[local.workspace].controls.cpu
-    memory = local.k8s[local.workspace].controls.memory
+    cores         = local.k8s[local.workspace].controls.cpu
+    memory        = local.k8s[local.workspace].controls.memory
     core_fraction = local.k8s[local.workspace].controls.core_fraction
   }
 
@@ -89,8 +84,8 @@ resource "yandex_compute_instance" "worker_node" {
   zone = local.networks[count.index - floor(count.index / length(local.networks)) * length(local.networks)].zone_name
 
   resources {
-    cores  = local.k8s[local.workspace].workers.cpu
-    memory = local.k8s[local.workspace].workers.memory
+    cores         = local.k8s[local.workspace].workers.cpu
+    memory        = local.k8s[local.workspace].workers.memory
     core_fraction = local.k8s[local.workspace].workers.core_fraction
   }
 
@@ -104,7 +99,7 @@ resource "yandex_compute_instance" "worker_node" {
 
   network_interface {
     subnet_id = yandex_vpc_subnet.public[count.index - floor(count.index / length(local.networks)) * length(local.networks)].id
-#    nat       = true
+    nat       = true
   }
 
   scheduling_policy {
