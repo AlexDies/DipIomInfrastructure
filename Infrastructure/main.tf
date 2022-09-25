@@ -34,10 +34,12 @@ locals {
   ]
 }
 
+# Создаем VPC
 resource "yandex_vpc_network" "alexdiplom-vpc" {
   name = "${local.name[local.workspace]}-vpc"
 }
 
+#Создаем подсети на основе переменных locals
 resource "yandex_vpc_subnet" "public" {
   count = length(local.networks)
   v4_cidr_blocks = local.networks[count.index].subnet
