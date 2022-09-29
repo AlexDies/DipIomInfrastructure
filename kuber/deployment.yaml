@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testapp
+  namespace: apps-ns
+  labels:
+    app: apps-ns
+spec:
+  selector:
+    matchLabels:
+      app: testapp
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: testapp
+    spec:
+      containers:
+        - name: testapp
+          image: cr.yandex/crptsn6m55qajbkecilc/app:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+            protocol: TCP
+      imagePullSecrets:
+      - name: cr.ya.pull
