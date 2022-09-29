@@ -612,7 +612,8 @@ Forwarding from [::1]:3000 -> 3000
 Handling connection for 3000
 Handling connection for 3000
 ```
-Поменяем стандартный пароль (по умолчаниюя `admin\admin`)
+Поменяем стандартный пароль (по умолчаниюя `admin\admin`):
+
 `login: admin`
 `password: password`
 
@@ -669,7 +670,7 @@ SlRRVjh5TURRNElpd2ljSEpwZG1GMFpWOXJa -----------
 ![grafana_web.png](images/grafana_web.png)
 
 
-**<ВНИМАНИЕ>Ссылка на репозиторий:**
+Ссылка на репозиторий с манифестами приложения: https://github.com/AlexDies/DipIomInfrastructure/tree/master/kuber
 
 **Всё готово, данный этап завершен!**
 
