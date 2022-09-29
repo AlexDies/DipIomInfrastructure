@@ -195,6 +195,8 @@ resource "yandex_container_registry_iam_binding" "ci-cd-role-pusher" {
   ]
 }
 ```
+Манифест: [container_registry.tf](Infrastructure/container_registry.tf)
+
 ---
 ##### 1.5. Создание файла `outputs`:
 
