@@ -691,18 +691,25 @@ SlRRVjh5TURRNElpd2ljSEpwZG1GMFpWOXJa -----------
 
 Далее полученный результат сохраним в переменной Gitlab: `Settings` -> `CI/CD` -> `Variables`. Добавим новый ключ `Add variable` -> `key: key_ci_cd`, `value: значение полученное ранее`, `type: Variable`.
 
+
+![gitlab_var.png](images/gitlab_var.png)
+
 ---
 ##### 5.2 Создание service account для доступа к кластеру kubernetes с нужными правами в CI/CD и создание переменной KUBECONFIG.
 
-Так как выполнение deploy будет осуществляться из CI/CD посредством `Helm`, то необходим доступ к нашему кластеру `kubernetes`. Нельзя предоставлять доступ ко всему кластеру в роли стандартного пользователя `kubernetes-admin`. Необходимо создать отдельный аккаунт с нужными правами.
+Так как выполнение deploy будет осуществляться из CI/CD посредством `Helm`, то необходим доступ к нашему кластеру `kubernetes`. 
+
+Нельзя предоставлять доступ ко всему кластеру в роли стандартного пользователя `kubernetes-admin`. Необходимо создать отдельный аккаунт с нужными правами.
 
 ##### 5.2.1 Создание нового service account и добавление нужных прав для работы в кластере kubernetes.
 
 Создаем `service account` `deployer` и `secret token` `deploye-secret` для данного аккаунта следующим манифестом: [account.yaml](kuber/RBAC/account.yaml)
 
-Далее создаем `Cluster Role` `deployer` (приложение может быть в разных namespace, отсюда нам необходима именно cluster role, а не просто role) с нужными нам правами для деплоя нашего приложения. Описание манифеста: [role.yaml](kuber/RBAC/role.yaml)
+Далее создаем `Cluster Role` `deployer` (приложение может быть в разных namespace, отсюда нам необходима именно cluster role, а не просто role) с нужными нам правами для деплоя нашего приложения. 
+Описание манифеста: [role.yaml](kuber/RBAC/role.yaml)
 
-После привяжем наш созданный `service account` `deployer` к `Cluster Role` `deployer` создав `ClusterRoleBinding` `deployer-rb`. Описание манифеста: [role-binding.yaml](kuber/RBAC/role-binding.yaml)
+После привяжем наш созданный `service account` `deployer` к `Cluster Role` `deployer` создав `ClusterRoleBinding` `deployer-rb`. 
+Описание манифеста: [role-binding.yaml](kuber/RBAC/role-binding.yaml)
 
 ##### 5.2.2 Добавление нового user в context нашего кластера на основе созданного ранее service account.
 
